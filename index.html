@@ -13,12 +13,12 @@
 <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
 <script type="text/babel">
 // Tailwind Classes
-const Dem = `bg-blue-800 p-2 m-2 rounded text-white`
-const Rep = `bg-red-600 p-2 m-2 rounded text-white`
-const Fun = `bg-orange-600 p-2 m-2 rounded text-white`
-const Green = `bg-green-600 p-2 m-2 rounded text-white`
-const Lib = `bg-yellow-600 p-2 m-2 rounded text-white`
-const None = `bg-gray-800 p-2 m-2 rounded text-white`
+const Dem = `bg-blue-800`
+const Rep = `bg-red-600`
+const Fun = `bg-orange-600`
+const Green = `bg-green-600`
+const Lib = `bg-yellow-600`
+const None = `bg-gray-800`
 const root = document.getElementById('root');
 // Function Component
 
@@ -29,9 +29,10 @@ function Person({...props}){
     function areTheyPresidential() { 
         const dob = Date.parse(props.dob)
         const element = (
-            <div>
-                <section className={`p-4 m-4 text-xl text-left`}>
-                    {props.image ? <img className={`h-48`} src={props.image} alt={props.name}></img> : ''}
+            <div className={``}>
+                <section className={`p-4 m-4 text-6xl lg:text-2xl text-left`}>
+                    {props.image ? <img className={`w-1/4 flex-col lg:inline-block`} src={props.image} alt={props.name}></img> : ''}
+                    <div className={`flex-col lg:inline-block lg:p-4`}>
                     {props.name}<br />
                     Can run for president in {yearCanRun(dob)}<br />
                     DOB: {dater(dob)}<br />
@@ -39,6 +40,7 @@ function Person({...props}){
                     Age at possible election: {getAge(dob, yearCanRun(dob))}<br />
                     {/*Election Day: {dater(ElectionDay)} {'tbi'}<br /> */}
                     Time Until: {yearCanRun(dob)-new Date(Date.now()).getFullYear()} years<br />
+                    </div>
                 </section>
             </div>
             )
@@ -70,7 +72,7 @@ function Person({...props}){
         return formattedDate
     }
     return (
-        <button className={props.party} onClick={areTheyPresidential}>{props.name}</button>
+        <button className={`${props.party} text-sm md:text-xl p-2 m-2 rounded text-white shadow`} onClick={areTheyPresidential}>{props.name}</button>
         )
     }
 
