@@ -1,0 +1,97 @@
+<head>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- use: className={`tailwind name`} -->
+</head>
+<body>
+    <h1 class="text-center text-5xl">When Can _________ run for president?</h1>
+    <div id='root'></div>
+    <div id="info"></div>
+</body>
+
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script type="text/babel">
+// Tailwind Classes
+const Dem = `bg-blue-800 p-2 m-2 rounded text-white`
+const Rep = `bg-red-600 p-2 m-2 rounded text-white`
+const Fun = `bg-orange-600 p-2 m-2 rounded text-white`
+const Green = `bg-green-600 p-2 m-2 rounded text-white`
+const Lib = `bg-yellow-600 p-2 m-2 rounded text-white`
+const None = `bg-gray-800 p-2 m-2 rounded text-white`
+const root = document.getElementById('root');
+// Function Component
+
+
+
+function Person({...props}){
+
+    function areTheyPresidential() { 
+        const dob = Date.parse(props.dob)
+        const element = (
+            <div>
+                <section className={`p-4 m-4 text-xl text-left`}>
+                    {props.image ? <img className={`h-48`} src={props.image} alt={props.name}></img> : ''}
+                    {props.name}<br />
+                    Can run for president in {yearCanRun(dob)}<br />
+                    DOB: {dater(dob)}<br />
+                    Current Age: {getAge(dob)}<br />
+                    Age at possible election: {getAge(dob, yearCanRun(dob))}<br />
+                    {/*Election Day: {dater(ElectionDay)} {'tbi'}<br /> */}
+                    Time Until: {yearCanRun(dob)-new Date(Date.now()).getFullYear()} years<br />
+                </section>
+            </div>
+            )
+        return (
+            ReactDOM.render(element, document.getElementById('info'))
+        )
+    }
+    var ElectionDay = 1730505600000
+    var electionYear = 2020
+    function getAge(dob, dateToCheck){
+        console.log(dateToCheck)
+        var dateInCheck = dateToCheck ? dateToCheck : new Date(Date.now()).getFullYear()
+        return dateInCheck - new Date(dob).getFullYear()
+    }
+    function yearCanRun(dob){
+        const personBirthYear = new Date(dob).getFullYear()
+        const ageAtElection = electionYear - personBirthYear
+        if(ageAtElection < 35){
+            electionYear += 4
+            return yearCanRun(dob)
+        }
+        console.log(`age at election: ${ageAtElection}`)
+        console.log(`electionYear: ${electionYear}`)
+        return electionYear
+    }
+    function dater(givenDate){
+        var formattedDate = new Date(givenDate)
+        formattedDate = `${formattedDate.getMonth()+1}/${formattedDate.getDate()}/${formattedDate.getFullYear()}`
+        return formattedDate
+    }
+    return (
+        <button className={props.party} onClick={areTheyPresidential}>{props.name}</button>
+        )
+    }
+
+
+function App(){
+    return (
+        <div>
+            <Person name="Abby Finkenauer" dob="Dec 27 1988" image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/CongresswomanFinkenauer.jpg/220px-CongresswomanFinkenauer.jpg" party={Dem}/>
+            <Person name="Alexandria Ocasio-Cortez" dob="Oct 13 1989" image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Alexandria_Ocasio-Cortez_Official_Portrait.jpg/220px-Alexandria_Ocasio-Cortez_Official_Portrait.jpg" party={Dem}/>
+            <Person name="Josh Harder" dob="Aug 1 1986" image='https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Josh_Harder%2C_official_portrait%2C_116th_Congress.jpg/220px-Josh_Harder%2C_official_portrait%2C_116th_Congress.jpg' party={Dem} />
+            <Person name="Katie Hill" dob="Aug 25 1987" image='https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Katie_Hill%2C_official_portrait%2C_116th_Congress.jpg/220px-Katie_Hill%2C_official_portrait%2C_116th_Congress.jpg' party={Dem} />
+            <Person name="Kid President" dob="Jan 20 2004" image='https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Kid_President_in_White_House_2013_Easter_Egg_Roll_Promo.jpg/220px-Kid_President_in_White_House_2013_Easter_Egg_Roll_Promo.jpg' party={Fun} />
+            <Person name="Kermit the Frog" dob="May 9 1955" image='https://upload.wikimedia.org/wikipedia/en/thumb/6/62/Kermit_the_Frog.jpg/220px-Kermit_the_Frog.jpg' party={Green} />
+            <Person name="Lauren Underwood" dob="Oct 4 1986" image='https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Lauren_Underwood_official_portrait.jpg/220px-Lauren_Underwood_official_portrait.jpg' party={Dem} />
+            <Person name="Max Rose" dob="Nov 28 1986" image='https://upload.wikimedia.org/wikipedia/commons/a/ae/Max_Rose%2C_official_116th_Congress_photo_portrait_%28cropped%29.jpg' party={Dem} />
+            <Person name="Vermin Supreme" dob="June 1 1961" image='https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Lozwp_DSC00677.jpg/220px-Lozwp_DSC00677.jpg' party={Lib} />
+        </div>
+    )
+}
+
+ReactDOM.render(
+    <App />, root
+)
+</script>
